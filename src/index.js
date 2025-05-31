@@ -6,11 +6,14 @@ const link = caminhoArquivo[2];
 
 
 fs.readFile(link, 'utf-8', (erro, texto) => {
-    if (erro) {
-        console.error(`Error reading the file "${link}": ${erro.message} (code: ${erro.code}).`);
-        return;
+
+    try {
+        if (erro) throw erro;
+        contaPalavras(texto);
+    } catch (erro) {
+        if (erro.code === 'ENOENT') console.log(`Falha ao abrir o arquivo: ${link}`);
+        else console.log(`outro erro`);
     }
-    contaPalavras(texto);
 });
 
 function contaPalavras(texto) {
